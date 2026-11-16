@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     // Allow Vercel preview hosts and their subdomains.
-    allowedHosts: [".vercel.app", ".vercel.run"],
+    allowedHosts: [".vercel.app", ".vercel.run","sb-6zepfy61p9ap.vercel.run"],
     hmr: false,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
