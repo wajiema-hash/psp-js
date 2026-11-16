@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -12,15 +13,19 @@ export default defineConfig({
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util", "libav.js"],
   },
   server: {
-    // Allow Vercel preview hosts and their subdomains.
-    allowedHosts: [".vercel.app", ".vercel.run","sb-6zepfy61p9ap.vercel.run"],
+    // Allow Vercel preview hosts (e.g. *.vercel.run) in hosted dev environments.
+    // Keep the current v0 host explicit as well, so it remains allowed even if
+    // this environment's Vite host matching does not honor the wildcard entry.
+    allowedHosts: [".vercel.run", "sb-6zepfy61p9ap.vercel.run"],
     hmr: false,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
     },
     // Serve the docs under /docs in dev by forwarding to the VitePress dev
-    // server (run `npm run docs:dev`, which listens on 5174).
+    // server (run `npm run docs:dev`, which listens on 5174). Without this the
+    // app's SPA fallback answers /docs/ with index.html and the router bounces
+    // to #library. The docs use base /docs/ in dev so the paths line up here.
     proxy: {
       "/docs": {
         target: "http://localhost:5174",
